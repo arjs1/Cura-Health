@@ -1,6 +1,9 @@
+import 'package:cure_health_app/core/constant/capitalize_data.dart';
 import 'package:cure_health_app/core/constant/color_pallete.dart';
+import 'package:cure_health_app/core/provider/login_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
 class TopBarWidget extends StatelessWidget {
   const TopBarWidget({
@@ -9,6 +12,11 @@ class TopBarWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String firstnameData =
+        Provider.of<LoginProvider>(context, listen: false).firstName.toString();
+    String lastnameData =
+        Provider.of<LoginProvider>(context, listen: false).lastName.toString();
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -25,7 +33,7 @@ class TopBarWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "username",
+                    "$firstnameData ".toTitleCase + "$lastnameData".toTitleCase,
                     style: GoogleFonts.poppins(
                         fontSize: 20,
                         color: ColorPallete.tabColor,

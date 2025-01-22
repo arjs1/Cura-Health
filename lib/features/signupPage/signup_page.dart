@@ -17,16 +17,20 @@ class _SignupPageState extends State<SignupPage> {
   final apiUrl = "https://app-production-7b68.up.railway.app/user-create/";
 
   TextEditingController usernameController = TextEditingController();
+  TextEditingController firstNameController = TextEditingController();
+  TextEditingController lastNameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController confirmPasswordController = TextEditingController();
   TextEditingController emailController = TextEditingController();
-  Future<void> getResponse(
-      String username, String password, String email) async {
+  Future<void> getResponse(String firstName, String lastName, String username,
+      String password, String email) async {
     final uri = Uri.parse(apiUrl);
     final response = await http.post(
       uri,
       headers: {"Content-Type": "application/json"},
       body: jsonEncode({
+        "first_name": firstName,
+        "last_name": lastName,
         "email": email,
         "username": username,
         "password": password,
@@ -36,6 +40,9 @@ class _SignupPageState extends State<SignupPage> {
     if (response.statusCode == 200) {
       Map<String, dynamic> responseData = jsonDecode(response.body);
       print("ID: ${responseData['id']}");
+      print("ID: ${responseData['first_name']}");
+      print("ID: ${responseData['last_name']}");
+
       print("Username: ${responseData['username']}");
       print("Email: ${responseData['email']}");
       print("password: ${responseData['password']}");
@@ -92,6 +99,24 @@ class _SignupPageState extends State<SignupPage> {
                     fontSize: 25,
                     fontWeight: FontWeight.w600,
                   ),
+                ),
+                Row(
+                  children: [
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width / 2,
+                      child: TextWidgetField(
+                          hintText: "first name",
+                          obscuretext: false,
+                          controller: firstNameController),
+                    ),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width / 2,
+                      child: TextWidgetField(
+                          hintText: "last name",
+                          obscuretext: false,
+                          controller: lastNameController),
+                    ),
+                  ],
                 ),
                 TextWidgetField(
                     hintText: "email",
@@ -152,8 +177,13 @@ class _SignupPageState extends State<SignupPage> {
                           );
                         } else if (confirmPasswordController.text ==
                             passwordController.text) {
-                          getResponse(usernameController.text,
-                              passwordController.text, emailController.text);
+                          getResponse(
+                            firstNameController.text,
+                            lastNameController.text,
+                            usernameController.text,
+                            passwordController.text,
+                            emailController.text,
+                          );
                         } else {
                           //
                           showDialog(

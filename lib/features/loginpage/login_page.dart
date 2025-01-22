@@ -1,42 +1,96 @@
 import 'dart:convert';
 
 import 'package:cure_health_app/core/constant/color_pallete.dart';
+import 'package:cure_health_app/core/provider/login_provider.dart';
+import 'package:cure_health_app/features/homeScreen/home_page.dart';
+import 'package:cure_health_app/core/constant/home_screen.dart';
 import 'package:cure_health_app/features/loginpage/widgets/text_widget_field.dart';
 import 'package:cure_health_app/features/signupPage/signup_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 
 class LoginPage extends StatefulWidget {
   LoginPage({super.key});
-  final apiUrl = "https://expressnews-production.up.railway.app/user-create/";
+
+  final apiUrl = "https://app-production-7b68.up.railway.app/user-login/";
+
   final usernamecontroller = TextEditingController();
 
   final passwordcontroller = TextEditingController();
 
-  Future<void> getResponse(String username, String password) async {
+  Future<void> loginUser(
+    BuildContext context,
+    String username,
+    String password,
+  ) async {
     final uri = Uri.parse(apiUrl);
     final response = await http.post(
       uri,
       headers: {"Content-Type": "application/json"},
-      body: jsonEncode(<String, dynamic>{
+      body: jsonEncode({
+        // "email": email,
         "username": username,
         "password": password,
       }),
     );
 
     if (response.statusCode == 200) {
-      List<dynamic> responseData = jsonDecode(response.body);
-      for (var user in responseData) {
-        // print("ID: ${user['id']}");
-        print("Username: ${user['username']}");
-        print("Email: ${user['email']}");
-        print("password: ${user['password']}");
+      final responseBody = jsonDecode(response.body);
 
-        // Add more fields as necessary
-      }
+      final token = responseBody['token'];
+
+      final user = responseBody['user'];
+      final id = user['id'];
+      final userName = user['username'];
+      final userEmail = user['email'];
+      final firstName = user['first_name'];
+      final lastName = user['last_name'];
+      print(response.body);
+      // Access the LoginProvider and set the token
+      Provider.of<LoginProvider>(context, listen: false)
+          .setToken(token, id, userName, userEmail, firstName, lastName);
+      fetchData(context);
+      Navigator.push(
+        // ignore: use_build_context_synchronously
+        context,
+        MaterialPageRoute(
+          builder: (context) => HomeScreen(),
+        ),
+      );
+      // Add more fields as necessary
     } else {
-      print("Unsuccessful: ${response.statusCode}");
+      print("Unsuccessful: ${response.body}");
+      print("Status Code: ${response.statusCode}");
+      print("Headers: ${response.headers}");
+    }
+  }
+
+  Future<void> fetchData(BuildContext context) async {
+    final url =
+        Uri.parse('https://app-production-7b68.up.railway.app/test-token/');
+    final token = Provider.of<LoginProvider>(context, listen: false).authToken;
+
+    try {
+      final response = await http.get(
+        url,
+        headers: {
+          //  "Content-Type": "application/json"
+          "Authorization": 'Token $token',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        // Successfully received response
+        print('Response data: ${response.body}');
+      } else {
+        // Handle other status codes
+        print('Request failed with status: ${response.statusCode}');
+      }
+    } catch (e) {
+      // Handle any errors
+      print('An error occurred: $e');
     }
   }
 
@@ -137,6 +191,11 @@ class _LoginPageState extends State<LoginPage> {
                                   ],
                                 ),
                               );
+                            } else {
+                              widget.loginUser(
+                                  context,
+                                  widget.usernamecontroller.text,
+                                  widget.passwordcontroller.text);
                             }
                           },
                           child: Text(
