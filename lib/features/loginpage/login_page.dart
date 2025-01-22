@@ -31,6 +31,8 @@ class LoginPage extends StatefulWidget {
         // print("ID: ${user['id']}");
         print("Username: ${user['username']}");
         print("Email: ${user['email']}");
+        print("password: ${user['password']}");
+
         // Add more fields as necessary
       }
     } else {

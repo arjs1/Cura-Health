@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'package:cure_health_app/features/loginpage/login_page.dart';
+import 'package:http/http.dart' as http;
 import 'package:cure_health_app/core/constant/color_pallete.dart';
 import 'package:cure_health_app/features/loginpage/widgets/text_widget_field.dart';
 import 'package:flutter/material.dart';
@@ -11,9 +14,41 @@ class SignupPage extends StatefulWidget {
 }
 
 class _SignupPageState extends State<SignupPage> {
+  final apiUrl = "https://app-production-7b68.up.railway.app/user-create/";
+
   TextEditingController usernameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController confirmPasswordController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  Future<void> getResponse(
+      String username, String password, String email) async {
+    final uri = Uri.parse(apiUrl);
+    final response = await http.post(
+      uri,
+      headers: {"Content-Type": "application/json"},
+      body: jsonEncode({
+        "email": email,
+        "username": username,
+        "password": password,
+      }),
+    );
+
+    if (response.statusCode == 200) {
+      Map<String, dynamic> responseData = jsonDecode(response.body);
+      print("ID: ${responseData['id']}");
+      print("Username: ${responseData['username']}");
+      print("Email: ${responseData['email']}");
+      print("password: ${responseData['password']}");
+
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => LoginPage()));
+      // Add more fields as necessary
+    } else {
+      print("Unsuccessful: ${response.body}");
+      print("Status Code: ${response.statusCode}");
+      print("Headers: ${response.headers}");
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -58,6 +93,10 @@ class _SignupPageState extends State<SignupPage> {
                     fontWeight: FontWeight.w600,
                   ),
                 ),
+                TextWidgetField(
+                    hintText: "email",
+                    obscuretext: false,
+                    controller: emailController),
                 TextWidgetField(
                   hintText: "username",
                   obscuretext: false,
@@ -113,7 +152,8 @@ class _SignupPageState extends State<SignupPage> {
                           );
                         } else if (confirmPasswordController.text ==
                             passwordController.text) {
-                          print("true");
+                          getResponse(usernameController.text,
+                              passwordController.text, emailController.text);
                         } else {
                           //
                           showDialog(
