@@ -2,6 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cure_health_app/core/constant/color_pallete.dart';
 
 import 'package:cure_health_app/core/utilis/Speciality_doctor_model_data.dart';
+import 'package:cure_health_app/features/allspecialityPage/all_speciality_page.dart';
 import 'package:cure_health_app/features/homeScreen/widgets/carousel_widget.dart';
 import 'package:cure_health_app/features/homeScreen/widgets/top_bar_widget.dart';
 import 'package:cure_health_app/features/specialityScreen/speciality_screen.dart';
@@ -42,7 +43,12 @@ class _HomePageState extends State<HomePage> {
                       fontWeight: FontWeight.w600),
                 ),
                 TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => AllSpecialityPage()));
+                  },
                   child: Text(
                     "see all",
                     style: GoogleFonts.poppins(

@@ -1,7 +1,11 @@
 import 'package:cure_health_app/core/provider/login_provider.dart';
 import 'package:cure_health_app/core/constant/color_pallete.dart';
+import 'package:cure_health_app/features/appointmentPage/appointment_page.dart';
+import 'package:cure_health_app/features/privacyAndSetting/privacy_and_setting.dart';
+import 'package:cure_health_app/features/profilePage/widget/profile_tablet.dart';
+import 'package:cure_health_app/features/profilePage/profilePageEdit/profile_page_edit.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+
 import 'package:http/http.dart' as http;
 
 import 'package:provider/provider.dart';
@@ -70,31 +74,60 @@ class _ProfilePageState extends State<ProfilePage> {
         child: ListView(
           children: [
             CircleAvatar(
-              radius: 70,
+              radius: 80,
               backgroundColor: Colors.amber,
             ),
             SizedBox(
-              height: 10,
-            ),
-            MaterialButton(
-              onPressed: () {},
-              child: Text("edit"),
-              color: Colors.amber,
+              height: 20,
             ),
             Divider(),
-            Row(
-              children: [
-                Text("username"),
-                Container(
-                  decoration: BoxDecoration(
-                    color: ColorPallete.tabColor,
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10.0),
+              child: Column(
+                spacing: 30,
+                children: [
+                  SizedBox(
+                    height: 10,
                   ),
-                  child: Text(
-                    userName.toString(),
-                    style: GoogleFonts.poppins(color: Colors.white),
+                  ProfileTablet(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => AppointmentPage(),
+                        ),
+                      );
+                    },
+                    tabName: "Your appointment",
                   ),
-                )
-              ],
+                  ProfileTablet(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ProfilePageEdit(),
+                        ),
+                      );
+                    },
+                    tabName: "personal info",
+                  ),
+                  ProfileTablet(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => PrivacyAndSetting()));
+                    },
+                    tabName: "privacy & setting",
+                  ),
+                  ProfileTablet(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    tabName: "logout",
+                  ),
+                ],
+              ),
             )
           ],
         ),

@@ -23,12 +23,12 @@ List<SpecialityDoctorModel> specialitydata = [
           "You call them eye doctors. They can prescribe glasses or contact lenses and diagnose and treat diseases like glaucoma. Unlike optometrists, they’re medical doctors who can treat every kind of eye condition as well as operate on the eyes."),
   SpecialityDoctorModel(
       specialityImage: "assets/images/gynacologist.jpg",
-      specialityName: "gynacologist.webp",
+      specialityName: "gynacologist",
       specialityRequirement:
           "Often called OB/GYNs, these doctors focus on women's health, including pregnancy and childbirth. They do Pap smears, pelvic exams, and pregnancy checkups. OB/GYNs are trained in both areas. But some of them may focus on women's reproductive health (gynecologists), and others specialize in caring for pregnant women (obstetricians)."),
   SpecialityDoctorModel(
       specialityImage: "assets/images/cardiologist.jpg",
-      specialityName: "Cardiologist.jpg",
+      specialityName: "Cardiologist",
       specialityRequirement:
           "They’re experts on the heart and blood vessels. You might see them for heart failure, a heart attack, high blood pressure, or an irregular heartbeat."),
 ];
