@@ -1,7 +1,5 @@
+import 'package:cure_health_app/core/provider/doctor_provider.dart';
 import 'package:cure_health_app/core/provider/login_provider.dart';
-import 'package:cure_health_app/features/SplashScreen/splash_screen.dart';
-import 'package:cure_health_app/features/homeScreen/home_page.dart';
-import 'package:cure_health_app/core/constant/home_screen.dart';
 import 'package:cure_health_app/features/loginpage/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -19,6 +17,9 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(
           create: (context) => LoginProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => DoctorProvider(),
         ),
       ],
       child: MaterialApp(
