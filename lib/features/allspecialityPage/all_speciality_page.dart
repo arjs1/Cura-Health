@@ -54,6 +54,8 @@ class _AllSpecialityPageState extends State<AllSpecialityPage> {
                                     specialitydata[index].specialityName,
                                 specialityData:
                                     specialitydata[index].specialityRequirement,
+                                speciality:
+                                    specialitydata[index].specialityName,
                               )));
                 },
                 child: CarouselWidget(

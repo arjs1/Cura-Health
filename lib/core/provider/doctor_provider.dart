@@ -26,4 +26,14 @@ class DoctorProvider with ChangeNotifier {
       notifyListeners();
     }
   }
+
+  List<DoctorModel> searchDoctors(String query) {
+    return _doctors.where((doctor) {
+      final nameLower = doctor.doctorName.toLowerCase();
+      final searchLower = query.toLowerCase();
+      final specialityLower = doctor.doctorSpeciality.toLowerCase();
+      return nameLower.contains(searchLower) ||
+          specialityLower.contains(searchLower);
+    }).toList();
+  }
 }

@@ -1,3 +1,4 @@
+import 'package:cure_health_app/core/constant/capitalize_data.dart';
 import 'package:cure_health_app/core/provider/login_provider.dart';
 import 'package:cure_health_app/core/constant/color_pallete.dart';
 import 'package:cure_health_app/features/appointmentPage/appointment_page.dart';
@@ -5,6 +6,7 @@ import 'package:cure_health_app/features/privacyAndSetting/privacy_and_setting.d
 import 'package:cure_health_app/features/profilePage/widget/profile_tablet.dart';
 import 'package:cure_health_app/features/profilePage/profilePageEdit/profile_page_edit.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'package:http/http.dart' as http;
 
@@ -61,15 +63,6 @@ class _ProfilePageState extends State<ProfilePage> {
 
     return Scaffold(
       backgroundColor: ColorPallete.primaryColor,
-      // body: Center(
-      //   child: MaterialButton(
-      //     onPressed: () {
-      //       deleteUser(context);
-      //     },
-      //     child: Text("delete me"),
-      //     color: Colors.amber,
-      //   ),
-      // ),
       body: Center(
         child: ListView(
           children: [
@@ -80,6 +73,17 @@ class _ProfilePageState extends State<ProfilePage> {
             SizedBox(
               height: 20,
             ),
+            Center(
+                child: Text(
+              "$firstName $lastName".toTitleCase,
+              style: GoogleFonts.poppins(
+                fontSize: 20,
+                fontWeight: FontWeight.w500,
+              ),
+            )),
+            SizedBox(
+              height: 10,
+            ),
             Divider(),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10.0),
@@ -87,7 +91,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 spacing: 30,
                 children: [
                   SizedBox(
-                    height: 10,
+                    height: 0,
                   ),
                   ProfileTablet(
                     onTap: () {

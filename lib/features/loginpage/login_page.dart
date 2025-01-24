@@ -48,6 +48,7 @@ class LoginPage extends StatefulWidget {
       final firstName = user['first_name'];
       final lastName = user['last_name'];
       print(response.body);
+
       // Access the LoginProvider and set the token
       Provider.of<LoginProvider>(context, listen: false)
           .setToken(token, id, userName, userEmail, firstName, lastName);

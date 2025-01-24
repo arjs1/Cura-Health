@@ -117,6 +117,8 @@ class _HomePageState extends State<HomePage> {
                                       specialitydata[itemIndex].specialityName,
                                   specialityData: specialitydata[itemIndex]
                                       .specialityRequirement,
+                                  speciality: specialitydata[itemIndex]
+                                      .specialityName, // Add this line
                                 ),
                               ),
                             );
