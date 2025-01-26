@@ -14,6 +14,7 @@ class SignupPage extends StatefulWidget {
 }
 
 class _SignupPageState extends State<SignupPage> {
+  String _selectedGender = 'male';
   final apiUrl = "https://app-production-7b68.up.railway.app/user-create/";
 
   TextEditingController usernameController = TextEditingController();
@@ -22,22 +23,29 @@ class _SignupPageState extends State<SignupPage> {
   TextEditingController passwordController = TextEditingController();
   TextEditingController confirmPasswordController = TextEditingController();
   TextEditingController emailController = TextEditingController();
+  TextEditingController ageController = TextEditingController();
+
   Future<void> getResponse(String firstName, String lastName, String username,
-      String password, String email) async {
+      String password, String email, int age, String gender) async {
     final uri = Uri.parse(apiUrl);
     final response = await http.post(
       uri,
       headers: {"Content-Type": "application/json"},
-      body: jsonEncode({
-        "first_name": firstName,
-        "last_name": lastName,
-        "email": email,
-        "username": username,
-        "password": password,
-      }),
+      body: jsonEncode(
+        {
+          "username": username,
+          "email": email,
+          "first_name": firstName,
+          "last_name": lastName,
+          "password": password,
+          "profile": {"profileAge": age, "profileGender": gender}
+        },
+      ),
+      // 0<age<120
+      // M- Male F-Female
     );
 
-    if (response.statusCode == 200) {
+    if (response.statusCode == 201) {
       Map<String, dynamic> responseData = jsonDecode(response.body);
       print("ID: ${responseData['id']}");
       print("ID: ${responseData['first_name']}");
@@ -46,6 +54,7 @@ class _SignupPageState extends State<SignupPage> {
       print("Username: ${responseData['username']}");
       print("Email: ${responseData['email']}");
       print("password: ${responseData['password']}");
+      print("password: ${responseData['age']}");
 
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => LoginPage()));
@@ -118,6 +127,44 @@ class _SignupPageState extends State<SignupPage> {
                     ),
                   ],
                 ),
+                Row(
+                  children: [
+                    Radio<String>(
+                      value: 'male',
+                      groupValue: _selectedGender,
+                      onChanged: (value) {
+                        setState(() {
+                          _selectedGender = value!;
+                        });
+                      },
+                    ),
+                    Text(
+                      'Male',
+                      style: GoogleFonts.poppins(
+                        fontSize: 20,
+                      ),
+                    ),
+                    Radio<String>(
+                      value: 'female',
+                      groupValue: _selectedGender,
+                      onChanged: (value) {
+                        setState(() {
+                          _selectedGender = value!;
+                        });
+                      },
+                    ),
+                    Text(
+                      'Female',
+                      style: GoogleFonts.poppins(
+                        fontSize: 20,
+                      ),
+                    ),
+                  ],
+                ),
+                TextWidgetField(
+                    hintText: "Age",
+                    obscuretext: false,
+                    controller: ageController),
                 TextWidgetField(
                     hintText: "email",
                     obscuretext: false,
@@ -177,13 +224,26 @@ class _SignupPageState extends State<SignupPage> {
                           );
                         } else if (confirmPasswordController.text ==
                             passwordController.text) {
-                          getResponse(
-                            firstNameController.text,
-                            lastNameController.text,
-                            usernameController.text,
-                            passwordController.text,
-                            emailController.text,
-                          );
+                          if (_selectedGender == "male") {
+                            getResponse(
+                                firstNameController.text,
+                                lastNameController.text,
+                                usernameController.text,
+                                passwordController.text,
+                                emailController.text,
+                                int.parse(ageController.text),
+                                "M");
+                          } else {
+                            getResponse(
+                              firstNameController.text,
+                              lastNameController.text,
+                              usernameController.text,
+                              passwordController.text,
+                              emailController.text,
+                              int.parse(ageController.text),
+                              "F",
+                            );
+                          }
                         } else {
                           //
                           showDialog(

@@ -1,8 +1,11 @@
+import 'dart:convert';
+
 import 'package:cure_health_app/core/constant/capitalize_data.dart';
 import 'package:cure_health_app/core/provider/login_provider.dart';
 import 'package:cure_health_app/core/constant/color_pallete.dart';
 import 'package:cure_health_app/features/appointmentPage/appointment_page.dart';
 import 'package:cure_health_app/features/privacyAndSetting/privacy_and_setting.dart';
+import 'package:cure_health_app/features/profilePage/widget/image_data.dart';
 import 'package:cure_health_app/features/profilePage/widget/profile_tablet.dart';
 import 'package:cure_health_app/features/profilePage/profilePageEdit/profile_page_edit.dart';
 import 'package:flutter/material.dart';
@@ -54,6 +57,49 @@ class _ProfilePageState extends State<ProfilePage> {
     }
   }
 
+  Future<void> viewAppointment(BuildContext context) async {
+    final profileIdData =
+        Provider.of<LoginProvider>(context, listen: false).profileId;
+    final token = Provider.of<LoginProvider>(context, listen: false).authToken;
+    final usersData = Provider.of<LoginProvider>(context, listen: false);
+
+    final apiUrl =
+        "https://app-production-7b68.up.railway.app/user-appointments/$profileIdData/";
+    final url = Uri.parse(apiUrl);
+    try {
+      final response = await http.post(
+        url,
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": 'Token $token',
+        },
+        body: jsonEncode({}),
+      );
+
+      if (response.statusCode == 201) {
+        final responseData = jsonDecode(response.body);
+        print('Response data: $responseData');
+        // ignore: use_build_context_synchronously
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) =>
+                AppointmentPage(appointmentData: responseData),
+          ),
+        );
+      } else {
+        // Handle other status codes
+        print(token);
+        print(response.body);
+        print('Request failed with status: ${response.statusCode}');
+      }
+    } catch (e) {
+      // Handle any errors
+      print(profileIdData);
+      print('An error occurred: $e');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final userName = Provider.of<LoginProvider>(context).userName;
@@ -67,7 +113,7 @@ class _ProfilePageState extends State<ProfilePage> {
         child: ListView(
           children: [
             CircleAvatar(
-              radius: 80,
+              radius: 100,
               backgroundColor: Colors.amber,
             ),
             SizedBox(
@@ -95,12 +141,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                   ProfileTablet(
                     onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => AppointmentPage(),
-                        ),
-                      );
+                      viewAppointment(context);
                     },
                     tabName: "Your appointment",
                   ),

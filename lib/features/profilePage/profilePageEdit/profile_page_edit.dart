@@ -26,11 +26,11 @@ class ProfilePageEdit extends StatefulWidget {
 class _ProfilePageEditState extends State<ProfilePageEdit> {
   Future<void> updateUser(BuildContext context, String firstName,
       String password, String lastName, String userName, String email) async {
-    final id = Provider.of<LoginProvider>(context, listen: false).userId;
+    final userId = Provider.of<LoginProvider>(context, listen: false).userId;
     final token = Provider.of<LoginProvider>(context, listen: false).authToken;
     final usersData = Provider.of<LoginProvider>(context, listen: false);
     final apiUrl =
-        "https://app-production-7b68.up.railway.app/user-update/$id/";
+        "https://app-production-7b68.up.railway.app/user-update/$userId/";
     final url = Uri.parse(apiUrl);
     try {
       final response = await http.put(
@@ -44,21 +44,25 @@ class _ProfilePageEditState extends State<ProfilePageEdit> {
           "last_name": lastName == "" ? usersData.lastName : lastName,
           "email": email == "" ? usersData.userEmail : email,
           "username": userName == "" ? usersData.userName : userName,
-          "password": password,
+          "current_password": password,
+          "profile": {
+            "profileAge": usersData.age,
+            "profileGender": usersData.gender,
+          },
         }),
       );
 
       if (response.statusCode == 200) {
         usersData.updateFields(firstName, lastName, userName, email);
-        print('Response data: ${response.body}');
+        print('Response data: ${response.statusCode}');
         // ignore: use_build_context_synchronously
         Navigator.pop(context);
       } else {
         // Handle other status codes
 
         print(token);
-        print(id);
-        print(response.body);
+        print(usersData.profileId);
+        // print(response.body);
         print('Request failed with status: ${response.statusCode}');
       }
     } catch (e) {
@@ -97,9 +101,6 @@ class _ProfilePageEditState extends State<ProfilePageEdit> {
             SizedBox(
               height: 20,
             ),
-            // Text(usersData.firstName ?? ""),
-            // Text(usersData.lastName ?? ""),
-            // Text(usersData.userEmail ?? ""),
             ProfileTextContainer(
               onTap: () {
                 editShowAlertDialog("first Name", widget.firstNameController);
@@ -122,15 +123,96 @@ class _ProfilePageEditState extends State<ProfilePageEdit> {
                   editShowAlertDialog("Username", widget.usernameController);
                 },
                 containerText: "Username: ${usersData.userName}"),
-
             SizedBox(
               height: 10,
             ),
             ProfileTextContainer(
-                onTap: () {
-                  editShowAlertDialog("Email", widget.emailController);
-                },
-                containerText: "Email: ${usersData.userEmail}"),
+              onTap: () {
+                editShowAlertDialog("Email", widget.emailController);
+              },
+              containerText: "Email: ${usersData.userEmail}",
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  alignment: Alignment.centerLeft,
+                  width: MediaQuery.of(context).size.width / 1.5,
+                  height: 55,
+                  // color: Colors.amber,
+                  decoration: BoxDecoration(
+                      color: const Color.fromARGB(180, 22, 26, 30)),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                    child: Text(
+                      "Age: ${usersData.age}",
+                      style: GoogleFonts.poppins(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.white),
+                    ),
+                  ),
+                ),
+                Container(
+                  width: MediaQuery.of(context).size.width / 4,
+                  height: 55,
+                  color: Colors.blue,
+                  child: Icon(
+                    Icons.edit_off,
+                    color: Colors.white,
+                    size: 30,
+                  ),
+                )
+              ],
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                if (usersData.gender == "M")
+                  Container(
+                    alignment: Alignment.centerLeft,
+                    width: MediaQuery.of(context).size.width / 1.5,
+                    height: 55,
+                    // color: Colors.amber,
+                    decoration: BoxDecoration(
+                        color: const Color.fromARGB(180, 22, 26, 30)),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                      child: usersData.gender == "M"
+                          ? Text(
+                              "Gender: Male",
+                              style: GoogleFonts.poppins(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.white),
+                            )
+                          : Text(
+                              "Gender: Female",
+                              style: GoogleFonts.poppins(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.white),
+                            ),
+                    ),
+                  ),
+                Container(
+                  width: MediaQuery.of(context).size.width / 4,
+                  height: 55,
+                  color: Colors.blue,
+                  child: Icon(
+                    Icons.edit_off,
+                    color: Colors.white,
+                    size: 30,
+                  ),
+                )
+              ],
+            ),
           ],
         ),
       ),

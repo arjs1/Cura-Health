@@ -47,11 +47,15 @@ class LoginPage extends StatefulWidget {
       final userEmail = user['email'];
       final firstName = user['first_name'];
       final lastName = user['last_name'];
+      final profile = user['profile'];
+      final gender = profile['profileGender'];
+      final profileId = profile['profileID'];
+      final age = profile['profileAge'];
       print(response.body);
 
       // Access the LoginProvider and set the token
-      Provider.of<LoginProvider>(context, listen: false)
-          .setToken(token, id, userName, userEmail, firstName, lastName);
+      Provider.of<LoginProvider>(context, listen: false).setToken(token, id,
+          userName, userEmail, firstName, lastName, gender, profileId, age);
       fetchData(context);
       Navigator.push(
         // ignore: use_build_context_synchronously

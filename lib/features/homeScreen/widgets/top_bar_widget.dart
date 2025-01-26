@@ -16,6 +16,9 @@ class TopBarWidget extends StatelessWidget {
         Provider.of<LoginProvider>(context, listen: false).firstName.toString();
     String lastnameData =
         Provider.of<LoginProvider>(context, listen: false).lastName.toString();
+    String genderData =
+        Provider.of<LoginProvider>(context, listen: false).gender.toString();
+    final ageData = Provider.of<LoginProvider>(context, listen: false).age;
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -39,12 +42,19 @@ class TopBarWidget extends StatelessWidget {
                         color: ColorPallete.tabColor,
                         fontWeight: FontWeight.w500),
                   ),
-                  Text(
-                    "gender, age ",
-                    style: GoogleFonts.poppins(
-                      color: const Color.fromARGB(255, 139, 139, 139),
-                    ),
-                  )
+                  genderData == "M"
+                      ? Text(
+                          "Male, ${ageData}",
+                          style: GoogleFonts.poppins(
+                            color: const Color.fromARGB(255, 139, 139, 139),
+                          ),
+                        )
+                      : Text(
+                          "Female, ${ageData}",
+                          style: GoogleFonts.poppins(
+                            color: const Color.fromARGB(255, 139, 139, 139),
+                          ),
+                        ),
                 ],
               ),
             ),

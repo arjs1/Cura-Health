@@ -8,15 +8,22 @@ class LoginProvider extends ChangeNotifier {
   String? authToken;
   String? firstName;
   String? lastName;
-  void setToken(token, id, username, email, firstname, lastname) {
+  String? gender;
+  String? profileId;
+  int? age;
+  void setToken(token, id, username, email, firstname, lastname, genderData,
+      profileIdData, ageData) {
     userId = id;
     authToken = token;
     userName = username;
     userEmail = email;
     firstName = firstname;
     lastName = lastname;
+    gender = genderData;
+    profileId = profileIdData;
+    age = ageData;
     print(
-        " $authToken _ $userId _ $userName _ $userEmail _ $firstName _ $lastName");
+        " $authToken _ $userId _ $userName _ $userEmail _ $firstName _ $lastName _$genderData _$ageData _$profileId");
     notifyListeners();
   }
 
