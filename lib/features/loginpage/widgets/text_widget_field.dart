@@ -31,7 +31,7 @@ class _TextWidgetFieldState extends State<TextWidgetField> {
       padding: const EdgeInsets.symmetric(horizontal: 10.0),
       child: TextFormField(
         controller: widget.controller,
-        obscureText: isSetIcon ? widget.obscuretext : false,
+        obscureText: !isSetIcon ? widget.obscuretext : false,
         cursorWidth: 2,
         cursorColor: Colors.white,
         style: GoogleFonts.poppins(color: ColorPallete.secondaryColor),
@@ -44,11 +44,11 @@ class _TextWidgetFieldState extends State<TextWidgetField> {
                   },
                   icon: isSetIcon
                       ? Icon(
-                          Icons.remove_red_eye_outlined,
+                          Icons.remove_red_eye,
                           color: Colors.white,
                         )
                       : Icon(
-                          Icons.remove_red_eye,
+                          Icons.remove_red_eye_outlined,
                           color: Colors.white,
                         ),
                 ),
