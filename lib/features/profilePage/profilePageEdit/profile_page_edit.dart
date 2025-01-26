@@ -174,33 +174,32 @@ class _ProfilePageEditState extends State<ProfilePageEdit> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                if (usersData.gender == "M")
-                  Container(
-                    alignment: Alignment.centerLeft,
-                    width: MediaQuery.of(context).size.width / 1.5,
-                    height: 55,
-                    // color: Colors.amber,
-                    decoration: BoxDecoration(
-                        color: const Color.fromARGB(180, 22, 26, 30)),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                      child: usersData.gender == "M"
-                          ? Text(
-                              "Gender: Male",
-                              style: GoogleFonts.poppins(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w500,
-                                  color: Colors.white),
-                            )
-                          : Text(
-                              "Gender: Female",
-                              style: GoogleFonts.poppins(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w500,
-                                  color: Colors.white),
-                            ),
-                    ),
+                Container(
+                  alignment: Alignment.centerLeft,
+                  width: MediaQuery.of(context).size.width / 1.5,
+                  height: 55,
+                  // color: Colors.amber,
+                  decoration: BoxDecoration(
+                      color: const Color.fromARGB(180, 22, 26, 30)),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                    child: usersData.gender == "M"
+                        ? Text(
+                            "Gender: Male",
+                            style: GoogleFonts.poppins(
+                                fontSize: 20,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.white),
+                          )
+                        : Text(
+                            "Gender: Female",
+                            style: GoogleFonts.poppins(
+                                fontSize: 20,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.white),
+                          ),
                   ),
+                ),
                 Container(
                   width: MediaQuery.of(context).size.width / 4,
                   height: 55,
