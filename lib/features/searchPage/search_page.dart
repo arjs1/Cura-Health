@@ -1,6 +1,6 @@
 import 'package:cure_health_app/core/constant/color_pallete.dart';
 import 'package:cure_health_app/core/provider/doctor_provider.dart';
-import 'package:cure_health_app/core/utilis/Speciality_doctor_model_data.dart';
+// import 'package:cure_health_app/core/utilis/Speciality_doctor_model_data.dart';
 import 'package:cure_health_app/features/DetailPage/detail_page.dart';
 import 'package:cure_health_app/features/homeScreen/model/doctor_model.dart';
 import 'package:flutter/material.dart';

@@ -5,7 +5,7 @@ import 'package:cure_health_app/core/provider/login_provider.dart';
 import 'package:cure_health_app/core/constant/color_pallete.dart';
 import 'package:cure_health_app/features/appointmentPage/appointment_page.dart';
 import 'package:cure_health_app/features/privacyAndSetting/privacy_and_setting.dart';
-import 'package:cure_health_app/features/profilePage/widget/image_data.dart';
+// import 'package:cure_health_app/features/profilePage/widget/image_data.dart';
 import 'package:cure_health_app/features/profilePage/widget/profile_tablet.dart';
 import 'package:cure_health_app/features/profilePage/profilePageEdit/profile_page_edit.dart';
 import 'package:flutter/material.dart';
